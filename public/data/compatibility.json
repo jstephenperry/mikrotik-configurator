@@ -1,0 +1,27 @@
+{
+  "port_compatibility": {
+    "SFP": { "accepts": ["SFP"], "speed_gbps": 1 },
+    "SFP+": { "accepts": ["SFP+", "SFP"], "speed_gbps": 10 },
+    "SFP28": { "accepts": ["SFP28", "SFP+", "SFP"], "speed_gbps": 25 },
+    "QSFP+": { "accepts": ["QSFP+"], "speed_gbps": 40 },
+    "QSFP28": { "accepts": ["QSFP28", "QSFP+"], "speed_gbps": 100 },
+    "RJ45_100M": { "accepts": ["RJ45_100M"], "speed_gbps": 0.1 },
+    "RJ45_1G": { "accepts": ["RJ45_1G", "RJ45_100M"], "speed_gbps": 1 },
+    "RJ45_2.5G": { "accepts": ["RJ45_2.5G", "RJ45_1G", "RJ45_100M"], "speed_gbps": 2.5 },
+    "RJ45_10G": { "accepts": ["RJ45_10G", "RJ45_5G", "RJ45_2.5G", "RJ45_1G", "RJ45_100M"], "speed_gbps": 10 }
+  },
+  "poe_standards": {
+    "802.3af": { "voltage": 48, "max_power_w": 15.4, "type": "active" },
+    "802.3at": { "voltage": 48, "max_power_w": 30, "type": "active" },
+    "802.3bt": { "voltage": 48, "max_power_w": 60, "type": "active" },
+    "passive_24v": { "voltage": 24, "max_power_w": 30, "type": "passive" },
+    "passive_48v": { "voltage": 48, "max_power_w": 30, "type": "passive" }
+  },
+  "poe_compatibility_matrix": {
+    "802.3af": ["802.3af", "802.3at", "802.3bt"],
+    "802.3at": ["802.3at", "802.3bt"],
+    "802.3bt": ["802.3bt"],
+    "passive_24v": ["passive_24v"],
+    "passive_48v": ["passive_48v"]
+  }
+}
