@@ -3,11 +3,20 @@ import { X, Search, Plus, Server, Monitor, Check, Zap, Wifi, Radio, Package } fr
 import { getCompatibleSwitches, checkPortCompatibility } from '../utils/compatibility.js';
 
 const CATEGORY_CONFIG = {
-  routers:     { icon: Server,  badge: 'badge-router' },
-  switches:    { icon: Monitor, badge: 'badge-switch' },
-  wireless:    { icon: Wifi,    badge: 'badge-wireless' },
-  lte:         { icon: Radio,   badge: 'badge-lte' },
-  accessories: { icon: Package, badge: 'badge-accessory' },
+  'ethernet-routers':              { icon: Server,  badge: 'badge-router' },
+  'switches':                      { icon: Monitor, badge: 'badge-switch' },
+  'wireless-for-home-and-office':  { icon: Wifi,    badge: 'badge-wireless' },
+  'wireless-systems':              { icon: Wifi,    badge: 'badge-wireless' },
+  'lte-5g-products':               { icon: Radio,   badge: 'badge-lte' },
+  'iot-products':                  { icon: Radio,   badge: 'badge-lte' },
+  '60-ghz-products':               { icon: Wifi,    badge: 'badge-wireless' },
+  'routerboard':                   { icon: Server,  badge: 'badge-router' },
+  'enclosures':                    { icon: Package, badge: 'badge-accessory' },
+  'interfaces':                    { icon: Monitor, badge: 'badge-switch' },
+  'accessories':                   { icon: Package, badge: 'badge-accessory' },
+  'antennas':                      { icon: Wifi,    badge: 'badge-wireless' },
+  'sfp-qsfp':                      { icon: Monitor, badge: 'badge-switch' },
+  'new':                           { icon: Server,  badge: 'badge-router' },
 };
 
 export default function DeviceSelector({ products, existingDevices, onSelect, onClose }) {
@@ -15,7 +24,7 @@ export default function DeviceSelector({ products, existingDevices, onSelect, on
   const [filterCategory, setFilterCategory] = useState('all');
 
   // Determine if we have routers already to highlight compatible switches
-  const existingRouters = existingDevices.filter((d) => d.category === 'routers');
+  const existingRouters = existingDevices.filter((d) => d.category === 'ethernet-routers');
   const existingSwitches = existingDevices.filter((d) => d.category === 'switches');
 
   let compatibleSwitchModels = null;
@@ -64,7 +73,7 @@ export default function DeviceSelector({ products, existingDevices, onSelect, on
         }
       }
     }
-    if (product.category === 'routers' && existingSwitches.length > 0) {
+    if (product.category === 'ethernet-routers' && existingSwitches.length > 0) {
       for (const sw of existingSwitches) {
         const result = checkPortCompatibility(product, sw);
         if (result.compatible) {
@@ -95,13 +104,20 @@ export default function DeviceSelector({ products, existingDevices, onSelect, on
             />
           </div>
           <div className="selector-categories">
-            {['all', 'routers', 'switches', 'wireless', 'lte', 'accessories'].map((cat) => (
+            {[
+              { value: 'all', label: 'All' },
+              { value: 'ethernet-routers', label: 'Routers' },
+              { value: 'switches', label: 'Switches' },
+              { value: 'wireless-for-home-and-office', label: 'Wireless' },
+              { value: 'lte-5g-products', label: 'LTE/5G' },
+              { value: 'accessories', label: 'Accessories' },
+            ].map((cat) => (
               <button
-                key={cat}
-                className={`filter-btn ${filterCategory === cat ? 'active' : ''}`}
-                onClick={() => setFilterCategory(cat)}
+                key={cat.value}
+                className={`filter-btn ${filterCategory === cat.value ? 'active' : ''}`}
+                onClick={() => setFilterCategory(cat.value)}
               >
-                {cat === 'all' ? 'All' : cat === 'routers' ? 'Routers' : cat === 'switches' ? 'Switches' : cat === 'wireless' ? 'Wireless' : cat === 'lte' ? 'LTE/5G' : 'Accessories'}
+                {cat.label}
               </button>
             ))}
           </div>
@@ -128,8 +144,8 @@ export default function DeviceSelector({ products, existingDevices, onSelect, on
                 )}
                 <div className="selector-item-info">
                   <div className="selector-item-header">
-                    <span className={`category-badge-sm ${(CATEGORY_CONFIG[product.category] || CATEGORY_CONFIG.routers).badge}`}>
-                      {(() => { const CatIcon = (CATEGORY_CONFIG[product.category] || CATEGORY_CONFIG.routers).icon; return <CatIcon size={10} />; })()}
+                    <span className={`category-badge-sm ${(CATEGORY_CONFIG[product.category] || CATEGORY_CONFIG['ethernet-routers']).badge}`}>
+                      {(() => { const CatIcon = (CATEGORY_CONFIG[product.category] || CATEGORY_CONFIG['ethernet-routers']).icon; return <CatIcon size={10} />; })()}
                     </span>
                     <span className="selector-item-name">{product.name}</span>
                     {product.short_descriptor && (

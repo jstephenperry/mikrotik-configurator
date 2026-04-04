@@ -59,10 +59,12 @@ export default function useProducts() {
     return () => { cancelled = true; };
   }, []);
 
-  const routers = products.filter((p) => p.category === 'routers');
+  const routers = products.filter((p) => p.category === 'ethernet-routers');
   const switches = products.filter((p) => p.category === 'switches');
-  const wireless = products.filter((p) => p.category === 'wireless');
-  const lte = products.filter((p) => p.category === 'lte');
+  const wireless = products.filter((p) =>
+    p.category === 'wireless-for-home-and-office' || p.category === 'wireless-systems'
+  );
+  const lte = products.filter((p) => p.category === 'lte-5g-products');
   const accessories = products.filter((p) => p.category === 'accessories');
 
   return { products, routers, switches, wireless, lte, accessories, loading, error };

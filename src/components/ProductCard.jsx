@@ -19,18 +19,27 @@ function formatPorts(ports) {
 }
 
 const CATEGORY_CONFIG = {
-  routers:     { icon: Server,  label: 'Router',    badge: 'badge-router' },
-  switches:    { icon: Monitor, label: 'Switch',    badge: 'badge-switch' },
-  wireless:    { icon: Wifi,    label: 'Wireless',  badge: 'badge-wireless' },
-  lte:         { icon: Radio,   label: 'LTE/5G',    badge: 'badge-lte' },
-  accessories: { icon: Package, label: 'Accessory', badge: 'badge-accessory' },
+  'ethernet-routers':              { icon: Server,  label: 'Router',          badge: 'badge-router' },
+  'switches':                      { icon: Monitor, label: 'Switch',          badge: 'badge-switch' },
+  'wireless-for-home-and-office':  { icon: Wifi,    label: 'Wireless',        badge: 'badge-wireless' },
+  'wireless-systems':              { icon: Wifi,    label: 'Wireless System', badge: 'badge-wireless' },
+  'lte-5g-products':               { icon: Radio,   label: 'LTE/5G',          badge: 'badge-lte' },
+  'iot-products':                  { icon: Radio,   label: 'IoT',             badge: 'badge-lte' },
+  '60-ghz-products':               { icon: Wifi,    label: '60 GHz',          badge: 'badge-wireless' },
+  'routerboard':                   { icon: Server,  label: 'RouterBOARD',     badge: 'badge-router' },
+  'enclosures':                    { icon: Package, label: 'Enclosure',       badge: 'badge-accessory' },
+  'interfaces':                    { icon: Monitor, label: 'Interface',       badge: 'badge-switch' },
+  'accessories':                   { icon: Package, label: 'Accessory',       badge: 'badge-accessory' },
+  'antennas':                      { icon: Wifi,    label: 'Antenna',         badge: 'badge-wireless' },
+  'sfp-qsfp':                      { icon: Monitor, label: 'SFP/QSFP',       badge: 'badge-switch' },
+  'new':                           { icon: Zap,     label: 'New',             badge: 'badge-router' },
 };
 
 export default function ProductCard({ product, onClick }) {
   const [imgError, setImgError] = useState(false);
   const ports = product.ports || {};
   const portSummary = formatPorts(ports);
-  const cat = CATEGORY_CONFIG[product.category] || CATEGORY_CONFIG.routers;
+  const cat = CATEGORY_CONFIG[product.category] || CATEGORY_CONFIG['ethernet-routers'];
   const CatIcon = cat.icon;
 
   return (

@@ -13,11 +13,15 @@ export default function FilterBar({
 }) {
   const categories = [
     { value: 'all', label: 'All Devices' },
-    { value: 'routers', label: 'Routers' },
+    { value: 'ethernet-routers', label: 'Routers' },
     { value: 'switches', label: 'Switches' },
-    { value: 'wireless', label: 'Wireless' },
-    { value: 'lte', label: 'LTE/5G' },
+    { value: 'wireless-for-home-and-office', label: 'Wireless' },
+    { value: 'wireless-systems', label: 'Wireless Systems' },
+    { value: 'lte-5g-products', label: 'LTE/5G' },
+    { value: 'iot-products', label: 'IoT' },
     { value: 'accessories', label: 'Accessories' },
+    { value: 'sfp-qsfp', label: 'SFP/QSFP' },
+    { value: 'routerboard', label: 'RouterBOARD' },
   ];
 
   const portOptions = [
