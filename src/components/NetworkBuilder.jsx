@@ -201,12 +201,14 @@ export default function NetworkBuilder({ initialProduct, navigationKey }) {
   }
 
   function handleConfirmConnection(option) {
-    if (showConnectionOptions) {
+    const sourceId = option._sourceId || (showConnectionOptions && showConnectionOptions.sourceId);
+    const targetId = option._targetId || (showConnectionOptions && showConnectionOptions.targetId);
+    if (sourceId && targetId) {
       dispatch({
         type: 'ADD_CONNECTION',
         payload: {
-          sourceId: showConnectionOptions.sourceId,
-          targetId: showConnectionOptions.targetId,
+          sourceId,
+          targetId,
           portTypeA: option.portA,
           portTypeB: option.portB,
           speed_gbps: option.speed_gbps,
