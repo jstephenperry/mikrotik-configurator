@@ -163,8 +163,23 @@ export default function NetworkBuilder({ initialProduct, navigationKey }) {
       const targetDevice = state.devices.find((d) => d._id === deviceId);
 
       if (sourceDevice && targetDevice) {
-        const options = getConnectionOptions(sourceDevice, targetDevice);
-        if (options.length > 0) {
+        let options = getConnectionOptions(sourceDevice, targetDevice);
+
+        // If a specific port type was selected via "+", filter to matching options
+        if (connectMode.portType) {
+          options = options.filter((o) => o.portA === connectMode.portType);
+        }
+
+        if (options.length === 1) {
+          // Auto-connect when there's only one option
+          handleConfirmConnection({
+            ...options[0],
+            _sourceId: connectMode.sourceId,
+            _targetId: deviceId,
+          });
+          setConnectMode(null);
+          return;
+        } else if (options.length > 1) {
           setShowConnectionOptions({
             sourceId: connectMode.sourceId,
             targetId: deviceId,
@@ -178,9 +193,10 @@ export default function NetworkBuilder({ initialProduct, navigationKey }) {
     }
   }
 
-  function handleStartConnect() {
-    if (selectedDeviceId) {
-      setConnectMode({ sourceId: selectedDeviceId });
+  function handleStartConnect(deviceId, portType) {
+    const id = deviceId || selectedDeviceId;
+    if (id) {
+      setConnectMode({ sourceId: id, portType: portType || null });
     }
   }
 
@@ -306,15 +322,18 @@ export default function NetworkBuilder({ initialProduct, navigationKey }) {
       <div className="builder-canvas">
         {connectMode && (
           <div className="connect-mode-banner">
-            Click a target device to connect from {state.devices.find((d) => d._id === connectMode.sourceId)?.name}
+            Click a target device to connect
+            {connectMode.portType ? ` via ${connectMode.portType}` : ''} from {state.devices.find((d) => d._id === connectMode.sourceId)?.name}
           </div>
         )}
         <TopologyCanvas
           devices={state.devices}
           connections={state.connections}
           selectedDeviceId={selectedDeviceId}
+          connectMode={connectMode}
           onSelectDevice={handleSelectDevice}
           onRemoveDevice={removeDevice}
+          onStartConnect={handleStartConnect}
           devicePositions={state.positions}
           onUpdatePositions={updatePositions}
         />

@@ -1185,6 +1185,48 @@ input, select, textarea {
   color: var(--text-muted);
 }
 
+/* Port "+" connection indicators on topology nodes */
+.node-port-indicators {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
+
+.port-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 6px;
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  color: var(--accent);
+  font-size: 10px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+  line-height: 1;
+}
+
+.port-add-btn:hover {
+  background: var(--accent-muted);
+  border-color: var(--accent);
+}
+
+.port-add-count {
+  color: var(--text-muted);
+  font-weight: 400;
+  font-size: 9px;
+}
+
+.topology-node.connect-source .node-rect {
+  stroke: var(--teal);
+  stroke-width: 2.5;
+  stroke-dasharray: 6, 3;
+}
+
 
 /* ============================================================
    Topology Canvas

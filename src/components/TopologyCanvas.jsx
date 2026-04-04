@@ -1,12 +1,21 @@
 import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
-import { Server, Monitor, Zap, Trash2, Wifi, Radio, Package, ZoomIn, ZoomOut, Maximize } from 'lucide-react';
+import { Server, Monitor, Zap, Trash2, Wifi, Radio, Package, ZoomIn, ZoomOut, Maximize, Plus } from 'lucide-react';
 
 const CATEGORY_CONFIG = {
-  routers:     { icon: Server,  nodeClass: 'node-router' },
-  switches:    { icon: Monitor, nodeClass: 'node-switch' },
-  wireless:    { icon: Wifi,    nodeClass: 'node-wireless' },
-  lte:         { icon: Radio,   nodeClass: 'node-lte' },
-  accessories: { icon: Package, nodeClass: 'node-accessory' },
+  'ethernet-routers':              { icon: Server,  nodeClass: 'node-router' },
+  'switches':                      { icon: Monitor, nodeClass: 'node-switch' },
+  'wireless-for-home-and-office':  { icon: Wifi,    nodeClass: 'node-wireless' },
+  'wireless-systems':              { icon: Wifi,    nodeClass: 'node-wireless' },
+  'lte-5g-products':               { icon: Radio,   nodeClass: 'node-lte' },
+  'iot-products':                  { icon: Radio,   nodeClass: 'node-lte' },
+  '60-ghz-products':               { icon: Wifi,    nodeClass: 'node-wireless' },
+  'routerboard':                   { icon: Server,  nodeClass: 'node-router' },
+  'enclosures':                    { icon: Package, nodeClass: 'node-accessory' },
+  'interfaces':                    { icon: Monitor, nodeClass: 'node-switch' },
+  'accessories':                   { icon: Package, nodeClass: 'node-accessory' },
+  'antennas':                      { icon: Wifi,    nodeClass: 'node-wireless' },
+  'sfp-qsfp':                      { icon: Monitor, nodeClass: 'node-switch' },
+  'new':                           { icon: Server,  nodeClass: 'node-router' },
 };
 
 const NODE_WIDTH = 180;
@@ -43,7 +52,9 @@ export default function TopologyCanvas({
   onSelectDevice,
   onRemoveDevice,
   onSelectConnection,
+  onStartConnect,
   selectedDeviceId,
+  connectMode,
   devicePositions,
   onUpdatePositions,
 }) {
@@ -403,11 +414,50 @@ export default function TopologyCanvas({
     );
   }
 
+  // Compute port utilization per device for "+" indicators
+  const portUtilization = useMemo(() => {
+    const util = {};
+    devices.forEach((d) => {
+      const ports = d.ports || {};
+      const types = [];
+      if (ports.ethernet_count > 0) {
+        const speeds = ports.ethernet_speed || ['1G'];
+        const label = speeds.includes('10G') ? 'RJ45_10G'
+          : speeds.includes('5G') ? 'RJ45_5G'
+          : speeds.includes('2.5G') ? 'RJ45_2.5G'
+          : speeds.includes('1G') ? 'RJ45_1G'
+          : 'RJ45_100M';
+        types.push({ type: label, total: ports.ethernet_count, used: 0, short: 'ETH' });
+      }
+      if (ports.sfp_count > 0) types.push({ type: 'SFP', total: ports.sfp_count, used: 0, short: 'SFP' });
+      if (ports.sfp_plus_count > 0) types.push({ type: 'SFP+', total: ports.sfp_plus_count, used: 0, short: 'SFP+' });
+      if (ports.sfp28_count > 0) types.push({ type: 'SFP28', total: ports.sfp28_count, used: 0, short: 'S28' });
+      if (ports.qsfp_plus_count > 0) types.push({ type: 'QSFP+', total: ports.qsfp_plus_count, used: 0, short: 'QS+' });
+      if (ports.qsfp28_count > 0) types.push({ type: 'QSFP28', total: ports.qsfp28_count, used: 0, short: 'Q28' });
+
+      // Count used ports from connections
+      connections.forEach((c) => {
+        if (c.sourceId === d._id) {
+          const pt = types.find((t) => t.type === c.portTypeA);
+          if (pt) pt.used += 1;
+        }
+        if (c.targetId === d._id) {
+          const pt = types.find((t) => t.type === c.portTypeB);
+          if (pt) pt.used += 1;
+        }
+      });
+
+      util[d._id] = types;
+    });
+    return util;
+  }, [devices, connections]);
+
   function renderDevice(device) {
     const pos = positions[device._id];
     if (!pos) return null;
     const isSelected = selectedDeviceId === device._id;
-    const catConfig = CATEGORY_CONFIG[device.category] || CATEGORY_CONFIG.routers;
+    const isConnectSource = connectMode && connectMode.sourceId === device._id;
+    const catConfig = CATEGORY_CONFIG[device.category] || CATEGORY_CONFIG['ethernet-routers'];
     const CatIcon = catConfig.icon;
     const ports = device.ports || {};
     const totalPorts =
@@ -418,10 +468,15 @@ export default function TopologyCanvas({
       (ports.qsfp_plus_count || 0) +
       (ports.qsfp28_count || 0);
 
+    // Port "+" indicators: show when selected and not in connect mode
+    const portTypes = portUtilization[device._id] || [];
+    const availablePorts = portTypes.filter((pt) => pt.used < pt.total);
+    const showPortIndicators = isSelected && !connectMode && devices.length >= 2 && availablePorts.length > 0;
+
     return (
       <g
         key={device._id}
-        className={`topology-node ${isSelected ? 'selected' : ''} ${dragging === device._id ? 'dragging' : ''}`}
+        className={`topology-node ${isSelected ? 'selected' : ''} ${dragging === device._id ? 'dragging' : ''} ${isConnectSource ? 'connect-source' : ''}`}
         onMouseDown={(e) => handleDeviceMouseDown(e, device._id)}
         onTouchStart={(e) => handleDeviceTouchStart(e, device._id)}
         onClick={(e) => {
@@ -468,6 +523,33 @@ export default function TopologyCanvas({
             >
               <Trash2 size={14} />
             </button>
+          </foreignObject>
+        )}
+        {/* Port "+" connection indicators */}
+        {showPortIndicators && (
+          <foreignObject
+            x={pos.x}
+            y={pos.y + NODE_HEIGHT + 6}
+            width={NODE_WIDTH}
+            height={30}
+          >
+            <div className="node-port-indicators">
+              {availablePorts.map((pt) => (
+                <button
+                  key={pt.type}
+                  className="port-add-btn"
+                  title={`Connect via ${pt.type} (${pt.total - pt.used} available)`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (onStartConnect) onStartConnect(device._id, pt.type);
+                  }}
+                >
+                  <Plus size={10} />
+                  <span>{pt.short}</span>
+                  <span className="port-add-count">{pt.total - pt.used}</span>
+                </button>
+              ))}
+            </div>
           </foreignObject>
         )}
       </g>
