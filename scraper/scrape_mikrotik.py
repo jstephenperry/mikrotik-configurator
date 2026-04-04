@@ -162,6 +162,12 @@ def _spec_int(specs: dict, pattern: str) -> int:
     return 0
 
 
+def _spec_int_val(val: str) -> int:
+    """Extract the first integer from a spec value string."""
+    m = re.search(r"(\d+)", val)
+    return int(m.group(1)) if m else 0
+
+
 def extract_ports_info(specs: dict, description: str) -> dict:
     """Extract structured port information from specs and description text."""
     ports = {
@@ -180,34 +186,116 @@ def extract_ports_info(specs: dict, description: str) -> dict:
         "serial_port": False,
     }
 
-    # Structured extraction from spec keys (e.g. "10/100/1000 Ethernet ports": "7")
-    gbe = _spec_int(specs, r"10/100/1000.*(?:Ethernet|port)")
-    if gbe:
-        ports["ethernet_count"] += gbe
-        ports["ethernet_speed"].append("1G")
+    # Iterate all spec keys to extract port counts by matching known patterns.
+    # Each key is checked once; matched keys are skipped to avoid double-counting.
+    matched_keys = set()
+    for key in specs:
+        lk = key.lower()
 
-    fast_eth = _spec_int(specs, r"10/100(?!/1000)\b.*(?:Ethernet|port)")
-    if fast_eth:
-        ports["ethernet_count"] += fast_eth
-        ports["ethernet_speed"].append("100M")
+        # 10/100/1000 Gigabit Ethernet
+        if re.search(r"10/100/1000", key) and key not in matched_keys:
+            val = _spec_int_val(specs[key])
+            if val:
+                ports["ethernet_count"] += val
+                if "1G" not in ports["ethernet_speed"]:
+                    ports["ethernet_speed"].append("1G")
+                matched_keys.add(key)
+                continue
 
-    eth_2_5g = _spec_int(specs, r"2\.5\s*G.*(?:Ethernet|port)")
-    if eth_2_5g:
-        ports["ethernet_count"] += eth_2_5g
-        ports["ethernet_speed"].append("2.5G")
+        # 10/100 Fast Ethernet (but NOT 10/100/1000)
+        if re.search(r"10/100(?!/1000)", key) and key not in matched_keys:
+            val = _spec_int_val(specs[key])
+            if val:
+                ports["ethernet_count"] += val
+                if "100M" not in ports["ethernet_speed"]:
+                    ports["ethernet_speed"].append("100M")
+                matched_keys.add(key)
+                continue
 
-    eth_10g = _spec_int(specs, r"(?:^|\b)10\s*G(?:bE|igabit).*(?:Ethernet|port)")
-    if eth_10g:
-        ports["ethernet_count"] += eth_10g
-        ports["ethernet_speed"].append("10G")
+        # 10G Ethernet (various formats: "10G", "10 Gigabit", "10GbE")
+        if re.search(r"\b10\s*G", key, re.I) and "ethernet" in lk and key not in matched_keys:
+            val = _spec_int_val(specs[key])
+            if val:
+                ports["ethernet_count"] += val
+                if "10G" not in ports["ethernet_speed"]:
+                    ports["ethernet_speed"].append("10G")
+                matched_keys.add(key)
+                continue
 
-    ports["sfp_count"] = _spec_int(specs, r"\bSFP(?!\+|28)\b.*port")
-    ports["sfp_plus_count"] = _spec_int(specs, r"\bSFP\+\b.*port")
-    ports["sfp28_count"] = _spec_int(specs, r"\bSFP28\b.*port")
-    ports["qsfp_plus_count"] = _spec_int(specs, r"\bQSFP\+\b.*port")
-    ports["qsfp28_count"] = _spec_int(specs, r"\bQSFP28\b.*port")
+        # 2.5G Ethernet
+        if re.search(r"2\.5\s*G", key, re.I) and ("ethernet" in lk or "port" in lk) and key not in matched_keys:
+            val = _spec_int_val(specs[key])
+            if val:
+                ports["ethernet_count"] += val
+                if "2.5G" not in ports["ethernet_speed"]:
+                    ports["ethernet_speed"].append("2.5G")
+                matched_keys.add(key)
+                continue
 
-    ports["usb_count"] = _spec_int(specs, r"\bUSB\b.*port")
+        # Multi-speed Ethernet (e.g. "1G/2.5G/5G/10G Ethernet ports")
+        if re.search(r"\d+G/\d+G", key, re.I) and ("ethernet" in lk or "port" in lk) and key not in matched_keys:
+            val = _spec_int_val(specs[key])
+            if val:
+                # Use the highest speed mentioned
+                speeds_in_key = re.findall(r"(\d+(?:\.\d+)?)\s*G", key, re.I)
+                if speeds_in_key:
+                    highest = max(float(s) for s in speeds_in_key)
+                    speed_label = f"{highest:g}G"
+                else:
+                    speed_label = "1G"
+                ports["ethernet_count"] += val
+                if speed_label not in ports["ethernet_speed"]:
+                    ports["ethernet_speed"].append(speed_label)
+                matched_keys.add(key)
+                continue
+
+        # QSFP28 ports (check before QSFP+)
+        if re.search(r"QSFP28", key) and "port" in lk and key not in matched_keys:
+            val = _spec_int_val(specs[key])
+            if val:
+                ports["qsfp28_count"] += val
+                matched_keys.add(key)
+                continue
+
+        # QSFP+ ports
+        if re.search(r"QSFP\+", key) and "port" in lk and key not in matched_keys:
+            val = _spec_int_val(specs[key])
+            if val:
+                ports["qsfp_plus_count"] += val
+                matched_keys.add(key)
+                continue
+
+        # SFP28 ports (check before SFP+)
+        if re.search(r"SFP28", key) and "port" in lk and key not in matched_keys:
+            val = _spec_int_val(specs[key])
+            if val:
+                ports["sfp28_count"] += val
+                matched_keys.add(key)
+                continue
+
+        # SFP+ ports (also match "Combo ... SFP+" keys)
+        if re.search(r"SFP\+", key) and "port" in lk and key not in matched_keys:
+            val = _spec_int_val(specs[key])
+            if val:
+                ports["sfp_plus_count"] += val
+                matched_keys.add(key)
+                continue
+
+        # SFP ports (plain, not SFP+ or SFP28)
+        if re.search(r"\bSFP\b(?!\+|28)", key) and "port" in lk and key not in matched_keys:
+            val = _spec_int_val(specs[key])
+            if val:
+                ports["sfp_count"] += val
+                matched_keys.add(key)
+                continue
+
+        # USB ports
+        if "usb" in lk and "port" in lk and key not in matched_keys:
+            val = _spec_int_val(specs[key])
+            if val:
+                ports["usb_count"] += val
+                matched_keys.add(key)
+                continue
 
     # PoE – check both spec keys and combined text
     combined_text = " ".join(f"{k}: {v}" for k, v in specs.items()) + " " + description
@@ -226,16 +314,6 @@ def extract_ports_info(specs: dict, description: str) -> dict:
 
     if re.search(r"serial|RS232|console\s*port", combined_text, re.I):
         ports["serial_port"] = True
-
-    # Fallback: scan combined text for inline port counts (e.g. "5x SFP+")
-    if not ports["sfp_plus_count"]:
-        m = re.search(r"(\d+)\s*x?\s*SFP\+", combined_text)
-        if m:
-            ports["sfp_plus_count"] = int(m.group(1))
-    if not ports["sfp_count"]:
-        m = re.search(r"(\d+)\s*x?\s*SFP(?!\+|28)", combined_text)
-        if m:
-            ports["sfp_count"] = int(m.group(1))
 
     return ports
 

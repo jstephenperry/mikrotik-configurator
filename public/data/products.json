@@ -1,7 +1,7 @@
 {
   "metadata": {
     "source": "mikrotik.com",
-    "scraped_at": "2026-04-03T23:51:11Z",
+    "scraped_at": "2026-04-04T01:42:09Z",
     "version": "1.0.0",
     "categories": [
       "new",
@@ -406,7 +406,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 8,
+          "sfp_plus_count": 2,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -468,7 +468,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 2,
+          "sfp_plus_count": 3,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -530,7 +530,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 8,
+          "sfp_plus_count": 2,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -592,7 +592,7 @@
         "ports": {
           "ethernet_count": 2,
           "ethernet_speed": [
-            "2.5G"
+            "10G"
           ],
           "sfp_count": 0,
           "sfp_plus_count": 0,
@@ -1896,7 +1896,7 @@
           "IP": "20"
         },
         "ports": {
-          "ethernet_count": 8,
+          "ethernet_count": 9,
           "ethernet_speed": [
             "1G",
             "2.5G"
@@ -1975,10 +1975,10 @@
           "ethernet_count": 3,
           "ethernet_speed": [
             "1G",
-            "2.5G"
+            "10G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 2,
+          "sfp_plus_count": 4,
           "sfp28_count": 4,
           "qsfp_plus_count": 0,
           "qsfp28_count": 2,
@@ -2053,7 +2053,7 @@
           "IP": "66"
         },
         "ports": {
-          "ethernet_count": 8,
+          "ethernet_count": 9,
           "ethernet_speed": [
             "1G",
             "2.5G"
@@ -2130,7 +2130,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 10,
+          "sfp_plus_count": 1,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -2411,7 +2411,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 13,
+          "sfp_plus_count": 4,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -3108,7 +3108,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 16,
+          "sfp_plus_count": 2,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -3175,7 +3175,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 16,
+          "sfp_plus_count": 2,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -3240,7 +3240,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 1,
+          "sfp_plus_count": 12,
           "sfp28_count": 2,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -3304,7 +3304,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 2,
+          "sfp_plus_count": 3,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -3366,7 +3366,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 8,
+          "sfp_plus_count": 2,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -3456,7 +3456,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 8,
+          "sfp_plus_count": 2,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -3518,7 +3518,7 @@
         "ports": {
           "ethernet_count": 2,
           "ethernet_speed": [
-            "2.5G"
+            "10G"
           ],
           "sfp_count": 0,
           "sfp_plus_count": 0,
@@ -3582,7 +3582,7 @@
           "ethernet_count": 5,
           "ethernet_speed": [
             "1G",
-            "2.5G"
+            "10G"
           ],
           "sfp_count": 0,
           "sfp_plus_count": 0,
@@ -3648,7 +3648,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 1,
+          "sfp_plus_count": 4,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -3710,10 +3710,10 @@
           "IP": "20"
         },
         "ports": {
-          "ethernet_count": 9,
+          "ethernet_count": 13,
           "ethernet_speed": [
             "100M",
-            "2.5G"
+            "10G"
           ],
           "sfp_count": 0,
           "sfp_plus_count": 0,
@@ -3788,7 +3788,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 16,
+          "sfp_plus_count": 4,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -3852,7 +3852,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 1,
+          "sfp_plus_count": 16,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -3918,7 +3918,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 1,
+          "sfp_plus_count": 8,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -4054,7 +4054,7 @@
             "1G"
           ],
           "sfp_count": 5,
-          "sfp_plus_count": 5,
+          "sfp_plus_count": 4,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -4120,7 +4120,7 @@
             "2.5G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 8,
+          "sfp_plus_count": 2,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -4188,7 +4188,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 16,
+          "sfp_plus_count": 2,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -4322,7 +4322,7 @@
             "1G"
           ],
           "sfp_count": 5,
-          "sfp_plus_count": 5,
+          "sfp_plus_count": 4,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -4384,7 +4384,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 24,
+          "sfp_plus_count": 2,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -4446,7 +4446,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 24,
+          "sfp_plus_count": 2,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -4514,9 +4514,9 @@
             "100M"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 1,
+          "sfp_plus_count": 24,
           "sfp28_count": 0,
-          "qsfp_plus_count": 0,
+          "qsfp_plus_count": 2,
           "qsfp28_count": 0,
           "poe_in": false,
           "poe_out": false,
@@ -4575,15 +4575,16 @@
           "IP": "20"
         },
         "ports": {
-          "ethernet_count": 21,
+          "ethernet_count": 25,
           "ethernet_speed": [
             "100M",
-            "2.5G"
+            "2.5G",
+            "10G"
           ],
           "sfp_count": 0,
           "sfp_plus_count": 0,
           "sfp28_count": 0,
-          "qsfp_plus_count": 0,
+          "qsfp_plus_count": 2,
           "qsfp28_count": 0,
           "poe_in": false,
           "poe_out": false,
@@ -4653,7 +4654,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 24,
+          "sfp_plus_count": 4,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -4716,7 +4717,7 @@
           "ethernet_count": 0,
           "ethernet_speed": [],
           "sfp_count": 20,
-          "sfp_plus_count": 20,
+          "sfp_plus_count": 4,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -4781,13 +4782,13 @@
         "ports": {
           "ethernet_count": 49,
           "ethernet_speed": [
-            "1G",
-            "100M"
+            "100M",
+            "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 48,
+          "sfp_plus_count": 4,
           "sfp28_count": 0,
-          "qsfp_plus_count": 0,
+          "qsfp_plus_count": 2,
           "qsfp28_count": 0,
           "poe_in": false,
           "poe_out": false,
@@ -4857,13 +4858,13 @@
         "ports": {
           "ethernet_count": 49,
           "ethernet_speed": [
-            "1G",
-            "100M"
+            "100M",
+            "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 48,
+          "sfp_plus_count": 4,
           "sfp28_count": 0,
-          "qsfp_plus_count": 0,
+          "qsfp_plus_count": 2,
           "qsfp28_count": 0,
           "poe_in": false,
           "poe_out": true,
@@ -4925,7 +4926,7 @@
         "ports": {
           "ethernet_count": 2,
           "ethernet_speed": [
-            "2.5G"
+            "10G"
           ],
           "sfp_count": 0,
           "sfp_plus_count": 0,
@@ -4983,7 +4984,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 16,
+          "sfp_plus_count": 2,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -5038,7 +5039,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 24,
+          "sfp_plus_count": 2,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -5273,7 +5274,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 8,
+          "sfp_plus_count": 2,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -5337,7 +5338,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 1,
+          "sfp_plus_count": 2,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -5471,7 +5472,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 8,
+          "sfp_plus_count": 2,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -5535,7 +5536,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 1,
+          "sfp_plus_count": 4,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -5615,7 +5616,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 8,
+          "sfp_plus_count": 2,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -5884,7 +5885,7 @@
         "ports": {
           "ethernet_count": 2,
           "ethernet_speed": [
-            "2.5G"
+            "10G"
           ],
           "sfp_count": 0,
           "sfp_plus_count": 0,
@@ -7971,7 +7972,7 @@
             "1G"
           ],
           "sfp_count": 0,
-          "sfp_plus_count": 10,
+          "sfp_plus_count": 1,
           "sfp28_count": 0,
           "qsfp_plus_count": 0,
           "qsfp28_count": 0,
@@ -14736,7 +14737,7 @@
           "ethernet_count": 2,
           "ethernet_speed": [
             "1G",
-            "2.5G"
+            "10G"
           ],
           "sfp_count": 0,
           "sfp_plus_count": 1,
